@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev-Facul\\digitalpark\\digitalpark\\digitalpark.csproj": {}
+    "C:\\Dev-Facul\\digital-park-api\\digitalpark.csproj": {}
   },
   "projects": {
-    "C:\\Dev-Facul\\digitalpark\\digitalpark\\digitalpark.csproj": {
+    "C:\\Dev-Facul\\digital-park-api\\digitalpark.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev-Facul\\digitalpark\\digitalpark\\digitalpark.csproj",
+        "projectUniqueName": "C:\\Dev-Facul\\digital-park-api\\digitalpark.csproj",
         "projectName": "digitalpark",
-        "projectPath": "C:\\Dev-Facul\\digitalpark\\digitalpark\\digitalpark.csproj",
+        "projectPath": "C:\\Dev-Facul\\digital-park-api\\digitalpark.csproj",
         "packagesPath": "C:\\Users\\marti\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev-Facul\\digitalpark\\digitalpark\\obj\\",
+        "outputPath": "C:\\Dev-Facul\\digital-park-api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\marti\\AppData\\Roaming\\NuGet\\NuGet.Config",

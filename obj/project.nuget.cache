@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "4C7e1BfguHFebBUnq7OGSa+q39PsshkVN+Bt80Ou5JiXKlHvp9rlKzUZ8ejN8UoKFigP+6DMKXpumfqnwqPkqg==",
+  "dgSpecHash": "sB/jJObS/Wb78dqNrYTH5aBw35BYt181bpxv4ZxYjz4M49EnikvspwhiMKp2EE7RlirJqfQXLIxZp/1NfkGcOg==",
   "success": true,
-  "projectFilePath": "C:\\Dev-Facul\\digitalpark\\digitalpark\\digitalpark.csproj",
+  "projectFilePath": "C:\\Dev-Facul\\digital-park-api\\digitalpark.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\marti\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\marti\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
