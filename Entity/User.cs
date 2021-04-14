@@ -10,25 +10,13 @@ namespace digitalpark.Entity
 {
     public class User : AbstractEntity
     {
-        [Required]
         public string Username { get; set; }
-
-        [Required]
-        public string Password { get; set; }
 
         public string Email { get; set; }
 
+        public byte[] Password { get; set; }
 
-        // public User createUser(UserModel model)
-        //{
-        //SHA256 sha256Hash = SHA256.Create();
-
-        //User user = new User();
-        //user.Email = model.Email;
-        //user.Username = model.Username;
-        //user.Password = SHA256.Create();
-
-        //    }
+        public byte[] Salt { get; set; }
 
     }
 }
