@@ -51,7 +51,6 @@ C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols
 C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\Microsoft.OpenApi.dll
-C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
@@ -89,3 +88,5 @@ C:\Dev-Facul\digital-park-api\obj\Debug\net5.0\ref\digitalpark.dll
 C:\Dev-Facul\digital-park-api\obj\Debug\net5.0\digitalpark.pdb
 C:\Dev-Facul\digital-park-api\obj\Debug\net5.0\digitalpark.genruntimeconfig.cache
 C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\AutoMapper.dll
+C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Dev-Facul\digital-park-api\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

@@ -37,7 +37,7 @@ namespace digitalpark.Services
             if (user == null)
                 return null;
 
-            if (!VerifyPasswordHash(password, user.Password, user.Salt))
+            if (!VerifyPasswordHash(password, user.PasswordHash, user.SaltHash))
                 return null;
 
             return user;
@@ -55,7 +55,6 @@ namespace digitalpark.Services
 
         public User Create(User user, string password)
         {
-            // validation
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
@@ -65,8 +64,8 @@ namespace digitalpark.Services
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            user.Password = passwordHash;
-            user.Salt = passwordSalt;
+            user.PasswordHash = passwordHash;
+            user.SaltHash = passwordSalt;
 
             _context.Users.Add(user);
             _context.SaveChanges();
@@ -98,8 +97,8 @@ namespace digitalpark.Services
                 byte[] passwordHash, passwordSalt;
                 CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-                user.Password = passwordHash;
-                user.Salt = passwordSalt;
+                user.PasswordHash = passwordHash;
+                user.SaltHash = passwordSalt;
             }
 
             _context.Users.Update(user);
@@ -132,8 +131,6 @@ namespace digitalpark.Services
         {
             if (password == null) throw new ArgumentNullException("password");
             if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-            if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
-            if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
 
             using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
             {
