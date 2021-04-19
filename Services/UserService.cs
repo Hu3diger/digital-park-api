@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using digitalpark.Model;
 
 namespace digitalpark.Services
 {
@@ -12,10 +13,10 @@ namespace digitalpark.Services
     {
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
-        User GetById(int id);
-        User Create(User user, string password);
+        User GetById(long id);
+        User Create(RegisterModel user, string password);
         void Update(User user, string password = null);
-        void Delete(int id);
+        void Delete(long id);
     }
 
     public class UserService : IUserService
@@ -48,29 +49,34 @@ namespace digitalpark.Services
             return _context.Users;
         }
 
-        public User GetById(int id)
+        public User GetById(long id)
         {
-            return _context.Users.Find(id);
+           return _context.Users.Find(id);
         }
 
-        public User Create(User user, string password)
+        public User Create(RegisterModel user, string password)
         {
+            User dbUser = new();
+
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
             if (_context.Users.Any(x => x.Username == user.Username))
-                throw new AppException("Username \"" + user.Username + "\" is already taken");
+                throw new AppException("Username '" + user.Username + "' is already taken");
 
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            user.PasswordHash = passwordHash;
-            user.SaltHash = passwordSalt;
+            
+            dbUser.Username = user.Username;
+            dbUser.Email = user.Email;
+            dbUser.PasswordHash = passwordHash;
+            dbUser.SaltHash = passwordSalt;
 
-            _context.Users.Add(user);
+            _context.Users.Add(dbUser);
             _context.SaveChanges();
 
-            return user;
+            return dbUser;
         }
 
         public void Update(User userParam, string password = null)
@@ -83,7 +89,7 @@ namespace digitalpark.Services
             if (!string.IsNullOrWhiteSpace(userParam.Username) && userParam.Username != user.Username)
             {
                 if (_context.Users.Any(x => x.Username == userParam.Username))
-                    throw new AppException("Username " + userParam.Username + " is already taken");
+                    throw new AppException("Username '" + userParam.Username + "' is already taken");
 
                 user.Username = userParam.Username;
             }
@@ -105,7 +111,7 @@ namespace digitalpark.Services
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(long id)
         {
             var user = _context.Users.Find(id);
             if (user != null)

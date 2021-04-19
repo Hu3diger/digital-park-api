@@ -27,11 +27,11 @@ namespace digitalpark.Migrations
             migrationBuilder.RenameColumn(
                 name: "PasswdTmp",
                 table: "Users",
-                newName: "Password"
+                newName: "PasswordHash"
             );
 
             migrationBuilder.AddColumn<byte[]>(
-                name: "Salt",
+                name: "SaltHash",
                 table: "Users",
                 type: "varbinary(max)",
                 nullable: true);

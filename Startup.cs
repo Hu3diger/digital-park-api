@@ -42,7 +42,9 @@ namespace digitalpark
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "digitalpark", Version = "v1" });
             });
 
+            // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
 
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
@@ -94,6 +96,8 @@ namespace digitalpark
             }
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication();
 
             app.UseRouting();
 

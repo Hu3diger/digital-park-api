@@ -72,11 +72,10 @@ namespace digitalpark.Controllers
         [HttpPost("register")]
         public IActionResult Register([FromBody] RegisterModel model)
         {
-            var user = _mapper.Map<User>(model);
-
+            
             try
             {
-                _userService.Create(user, model.Password);
+                _userService.Create(model, model.Password);
                 return Ok();
             }
             catch (AppException ex)
@@ -94,11 +93,28 @@ namespace digitalpark.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetById(long id)
         {
-            var user = _userService.GetById(id);
-            var model = _mapper.Map<UserModel>(user);
-            return Ok(model);
+            try
+            {
+                var user = _userService.GetById(id);
+
+                if (user != null)
+                {
+                    UserModel model = new();
+                    model.Email = user.Email;
+                    model.Username = user.Username;
+                    model.ID = user.ID;
+                    return Ok(model);
+                } else
+                {
+                    return NotFound();
+                }
+            } 
+            catch(Exception e)
+            {
+                return Problem(e.Message);
+            }
         }
 
         [HttpPut("{id}")]
@@ -119,7 +135,7 @@ namespace digitalpark.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(long id)
         {
             _userService.Delete(id);
             return Ok();
