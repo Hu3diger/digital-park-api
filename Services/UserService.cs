@@ -14,9 +14,10 @@ namespace digitalpark.Services
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
         User GetById(long id);
-        User Create(RegisterModel user, string password);
+        User Create(User user, string password);
         void Update(User user, string password = null);
         void Delete(long id);
+        User SetFields(UserModel model);
     }
 
     public class UserService : IUserService
@@ -54,10 +55,8 @@ namespace digitalpark.Services
            return _context.Users.Find(id);
         }
 
-        public User Create(RegisterModel user, string password)
+        public User Create(User user, string password)
         {
-            User dbUser = new();
-
             if (string.IsNullOrWhiteSpace(password))
                 throw new AppException("Password is required");
 
@@ -67,16 +66,16 @@ namespace digitalpark.Services
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
 
-            
-            dbUser.Username = user.Username;
-            dbUser.Email = user.Email;
-            dbUser.PasswordHash = passwordHash;
-            dbUser.SaltHash = passwordSalt;
 
-            _context.Users.Add(dbUser);
+            user.Username = user.Username;
+            user.Email = user.Email;
+            user.PasswordHash = passwordHash;
+            user.SaltHash = passwordSalt;
+
+            _context.Users.Add(user);
             _context.SaveChanges();
 
-            return dbUser;
+            return user;
         }
 
         public void Update(User userParam, string password = null)
@@ -148,6 +147,15 @@ namespace digitalpark.Services
             }
 
             return true;
+        }
+
+        public User SetFields(UserModel model)
+        {
+            User user = new();
+            user.ID = model.ID;
+            user.Email = model.Email;
+            user.Username = model.Username;
+            return user;
         }
     }
 }

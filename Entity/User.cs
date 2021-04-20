@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using digitalpark.Model;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace digitalpark.Entity
 {

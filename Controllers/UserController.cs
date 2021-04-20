@@ -70,26 +70,19 @@ namespace digitalpark.Controllers
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public IActionResult Register([FromBody] RegisterModel model)
+        public IActionResult Register([FromBody] UserModel model)
         {
-            
+            User user = _userService.SetFields(model);
+
             try
             {
-                _userService.Create(model, model.Password);
+                _userService.Create(user, model.Password);
                 return Ok();
             }
             catch (AppException ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
-        }
-
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            var users = _userService.GetAll();
-            var model = _mapper.Map<IList<UserModel>>(users);
-            return Ok(model);
         }
 
         [HttpGet("{id}")]
@@ -118,10 +111,9 @@ namespace digitalpark.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] UpdateModel model)
+        public IActionResult Update(int id, [FromBody] UserModel model)
         {
-            var user = _mapper.Map<User>(model);
-            user.ID = id;
+            User user = _userService.SetFields(model);
 
             try
             {
