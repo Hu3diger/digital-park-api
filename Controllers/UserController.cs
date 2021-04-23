@@ -10,10 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace digitalpark.Controllers
 {
@@ -53,7 +51,7 @@ namespace digitalpark.Controllers
                 {
                     new Claim(ClaimTypes.Name, user.ID.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -61,9 +59,9 @@ namespace digitalpark.Controllers
 
             return Ok(new
             {
-                Id = user.ID,
-                Username = user.Username,
-                Email = user.Email,
+                user.ID,
+                user.Username,
+                user.Email,
                 Token = tokenString
             });
         }
@@ -77,7 +75,7 @@ namespace digitalpark.Controllers
             try
             {
                 _userService.Create(user, model.Password);
-                return Ok();
+                return Created("Success", null);
             }
             catch (AppException ex)
             {
@@ -99,12 +97,13 @@ namespace digitalpark.Controllers
                     model.Username = user.Username;
                     model.ID = user.ID;
                     return Ok(model);
-                } else
+                }
+                else
                 {
                     return NotFound();
                 }
-            } 
-            catch(Exception e)
+            }
+            catch (Exception e)
             {
                 return Problem(e.Message);
             }
@@ -132,5 +131,19 @@ namespace digitalpark.Controllers
             _userService.Delete(id);
             return Ok();
         }
+
+        [HttpGet()]
+        public IActionResult FindAll()
+        {
+            List<UserModel> AllUsers = new();
+
+            foreach(User user in _userService.GetAll())
+            {
+                AllUsers.Add(_userService.SetFields(user));
+            }
+
+            return Ok(AllUsers);
+        }
+
     }
 }

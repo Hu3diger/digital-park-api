@@ -18,6 +18,7 @@ namespace digitalpark.Services
         void Update(User user, string password = null);
         void Delete(long id);
         User SetFields(UserModel model);
+        UserModel SetFields(User db);
     }
 
     public class UserService : IUserService
@@ -96,7 +97,6 @@ namespace digitalpark.Services
             if (!string.IsNullOrWhiteSpace(userParam.Email))
                 user.Email = userParam.Email;
 
-            // update password if provided
             if (!string.IsNullOrWhiteSpace(password))
             {
                 byte[] passwordHash, passwordSalt;
@@ -155,6 +155,15 @@ namespace digitalpark.Services
             user.ID = model.ID;
             user.Email = model.Email;
             user.Username = model.Username;
+            return user;
+        }
+
+        public UserModel SetFields(User db)
+        {
+            UserModel user = new();
+            user.ID = db.ID;
+            user.Email = db.Email;
+            user.Username = db.Username;
             return user;
         }
     }
