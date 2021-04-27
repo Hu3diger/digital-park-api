@@ -72,6 +72,7 @@ namespace digitalpark.Services
             user.Email = user.Email;
             user.PasswordHash = passwordHash;
             user.SaltHash = passwordSalt;
+            user.Type = UserType.Normal;
 
             _context.Users.Add(user);
             _context.SaveChanges();
@@ -81,7 +82,7 @@ namespace digitalpark.Services
 
         public void Update(User userParam, string password = null)
         {
-            var user = _context.Users.Find(userParam.ID);
+            User user = _context.Users.Find(userParam.ID);
 
             if (user == null)
                 throw new AppException("User not found");
@@ -105,6 +106,8 @@ namespace digitalpark.Services
                 user.PasswordHash = passwordHash;
                 user.SaltHash = passwordSalt;
             }
+
+            user.Type = userParam.Type;
 
             _context.Users.Update(user);
             _context.SaveChanges();
@@ -155,6 +158,7 @@ namespace digitalpark.Services
             user.ID = model.ID;
             user.Email = model.Email;
             user.Username = model.Username;
+            user.Type = model.Type;
             return user;
         }
 
@@ -164,6 +168,7 @@ namespace digitalpark.Services
             user.ID = db.ID;
             user.Email = db.Email;
             user.Username = db.Username;
+            user.Type = db.Type;
             return user;
         }
     }

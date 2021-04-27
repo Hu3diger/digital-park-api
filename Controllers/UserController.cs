@@ -21,7 +21,6 @@ namespace digitalpark.Controllers
     public class UsersController : ControllerBase
     {
         private IUserService _userService;
-        private IMapper _mapper;
         private readonly AppSettings _appSettings;
 
         public UsersController(
@@ -30,7 +29,6 @@ namespace digitalpark.Controllers
             IOptions<AppSettings> appSettings)
         {
             _userService = userService;
-            _mapper = mapper;
             _appSettings = appSettings.Value;
         }
 
@@ -62,6 +60,7 @@ namespace digitalpark.Controllers
                 user.ID,
                 user.Username,
                 user.Email,
+                user.Type,
                 Token = tokenString
             });
         }
@@ -92,11 +91,13 @@ namespace digitalpark.Controllers
 
                 if (user != null)
                 {
-                    UserModel model = new();
-                    model.Email = user.Email;
-                    model.Username = user.Username;
-                    model.ID = user.ID;
-                    return Ok(model);
+                    return Ok(new
+                    {
+                        user.ID,
+                        user.Email,
+                        user.Username,
+                        user.Type
+                    });
                 }
                 else
                 {

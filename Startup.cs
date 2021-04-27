@@ -36,13 +36,11 @@ namespace digitalpark
 
             services.AddControllers();
             services.AddDbContext<DigitalParkContext>();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "digitalpark", Version = "v1" });
             });
 
-            // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
 
