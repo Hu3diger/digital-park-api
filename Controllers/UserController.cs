@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using digitalpark.Entity;
+﻿using digitalpark.Entity;
 using digitalpark.Helpers;
 using digitalpark.Model;
 using digitalpark.Services;
@@ -25,7 +24,6 @@ namespace digitalpark.Controllers
 
         public UsersController(
             IUserService userService,
-            IMapper mapper,
             IOptions<AppSettings> appSettings)
         {
             _userService = userService;
