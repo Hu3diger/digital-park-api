@@ -1,12 +1,6 @@
 const express = require("express");
-const admin = require("firebase-admin");
-const serviceAccount = require("./firebase.config.json");
-const ResponseModel = require("./models/ResponseModel");
-
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
-});
-const db = admin.firestore();
+const UserService = require("./Services/Users");
+var cors = require('cors')
 
 const app = express();
 const port = 4000;
@@ -14,36 +8,22 @@ const BASE_URL = "/api/v1";
 
 app.use(express.json());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.post(BASE_URL + "/Users/register", async (req, res) => {
-	var user = req.body;
-	var response = null;
-	console.log (user);
-	if (user.username == null || user.username == undefined) {
-		response = new ResponseModel(400, true, "Username property is required");
-	} else if (user.password == null || user.password == undefined) {
-		response = new ResponseModel(400, true, "Password property is required");
-	} else if (user.email == null || user.email == undefined) {
-		response = new ResponseModel(400, true, "E-Mail property is required");
-	}
+	UserService.register(req.body).then((response) => {
+		res.status(response.status).send(response);
+	});
+});
 
-	if (response != null) {
-		res.status(response.statusCode).send(response);
-		return;
-	} else {
-		var docRef = db.collection("users").doc(user.username);
-		db.collection("users").doc(user.username).get().then(async (result) => {
-			console.log(result);
-			if (result.exists) {
-				response = new ResponseModel(400, true, "Username already taken");
-				res.status(response.statusCode).send(response);
-				return;
-			}
-
-			await docRef.set(req.body);
-			res.status(201).send("Created!");
-			return;
-		})
-	}
+app.post(BASE_URL + "/Users/auth", async (req, res) => {
+	UserService.authenticate(req.body).then((response) => {
+		res.status(response.status).send(response);
+	});
 });
 
 app.listen(port, () => {
