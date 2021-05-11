@@ -1,7 +1,7 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("../firebase.config.json");
 const ResponseModel = require("../models/ResponseModel");
-const { uuid } = require('uuidv4');
+const { uuid } = require("uuidv4");
 
 admin.initializeApp({
 	credential: admin.credential.cert(serviceAccount),
@@ -78,36 +78,35 @@ var authenticate = async function (user) {
 	});
 };
 
-var getByUUID = async function (param) {
+var getByUUID = async function (uuid) {
 	return new Promise((resolve) => {
 		var response = null;
-		if (param.username == null || param.username == undefined) {
-			response = new ResponseModel(400, true, "Username property is required");
+		if (uuid == null || uuid == undefined) {
+			response = new ResponseModel(400, true, "UUID property is required");
 		}
 
 		if (response != null) {
 			resolve(response);
 			return;
 		} else {
-			dbUsers
-				.doc(param.username)
-				.get()
-				.then(async (result) => {
-					data = result.data();
-					console.log(data);
-					if (result.exists && data.password !== user.password) {
-						resolve(new ResponseModel(400, true, "Incorrect password"));
-						return;
-					} else if (!result.exists) {
-						resolve(new ResponseModel(400, true, "User not found"));
-						return;
-					}
-
-					delete data.password;
-					data.token = "DP_WASD_" + Date.now();
-					resolve(new ResponseModel(200, false, data));
-					return;
+			dbUsers.get().then((querySnapshot) => {
+				users = [];
+				querySnapshot.forEach((doc) => {
+					users.push(doc.data());
 				});
+
+				responseUser = users.find((user) => user.uuid === uuid);
+				if (responseUser) {
+					delete responseUser.password;
+					response = new ResponseModel(200, false, responseUser);
+				}
+
+				if (response == null) {
+					response = new ResponseModel(404, true, "User not found");
+				}
+
+				resolve(response);
+			});
 		}
 	});
 };
@@ -115,4 +114,5 @@ var getByUUID = async function (param) {
 module.exports = {
 	register: register,
 	authenticate: authenticate,
+	getByUUID: getByUUID,
 };

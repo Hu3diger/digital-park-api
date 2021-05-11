@@ -26,6 +26,13 @@ app.post(BASE_URL + "/Users/auth", async (req, res) => {
 	});
 });
 
+app.get(BASE_URL + "/Users/:uuid", async (req, res) => {
+	UserService.getByUUID(req.params.uuid).then((response) => {
+		res.status(response.status).send(response);
+	});
+});
+
+
 app.listen(port, () => {
 	console.log(`App listening at http://localhost:${port}${BASE_URL}`);
 });
