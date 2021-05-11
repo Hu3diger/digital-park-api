@@ -1,6 +1,5 @@
 const express = require("express");
-const UserService = require("./Services/Users");
-var cors = require('cors')
+var UserController = require('./Controllers/UsersController.js');
 
 const app = express();
 const port = 4000;
@@ -14,24 +13,11 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.post(BASE_URL + "/Users/register", async (req, res) => {
-	UserService.register(req.body).then((response) => {
-		res.status(response.status).send(response);
-	});
-});
+//CONTROLLERS
+//Users
+app.use(BASE_URL + '/users', UserController);
 
-app.post(BASE_URL + "/Users/auth", async (req, res) => {
-	UserService.authenticate(req.body).then((response) => {
-		res.status(response.status).send(response);
-	});
-});
-
-app.get(BASE_URL + "/Users/:uuid", async (req, res) => {
-	UserService.getByUUID(req.params.uuid).then((response) => {
-		res.status(response.status).send(response);
-	});
-});
-
+//Maps is the next one
 
 app.listen(port, () => {
 	console.log(`App listening at http://localhost:${port}${BASE_URL}`);
