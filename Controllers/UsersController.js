@@ -4,7 +4,9 @@ var router = express.Router();
 
 
 router.get('/', function (req, res) {
-  res.send('Wiki home page');
+  UserService.getAll().then((response) => {
+		res.status(response.status).send(response);
+	});
 })
 
 router.post("/register", async (req, res) => {

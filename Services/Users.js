@@ -1,6 +1,7 @@
 const admin = require("firebase-admin");
 const serviceAccount = require("../firebase.config.json");
-const ResponseModel = require("../models/ResponseModel");
+const ResponseModel = require("../Models/ResponseModel");
+const UserType = require("../Enums/UserType.enum")
 const { uuid } = require("uuidv4");
 
 admin.initializeApp({
@@ -35,6 +36,9 @@ var register = function (user) {
 					}
 
 					user.uuid = uuid();
+					if (user.type == null || user.type == undefined){
+						user.type = UserType.Type.NORMAL;
+					}
 					await docRef.set(user);
 					resolve(new ResponseModel(201, false, "User created!"));
 					return;
@@ -111,8 +115,23 @@ var getByUUID = async function (uuid) {
 	});
 };
 
+var getAll = async function () {
+	return new Promise((resolve) => {
+		dbUsers.get().then((querySnapshot) => {
+			users = [];
+			querySnapshot.forEach((doc) => {
+				user = doc.data();
+				delete user.password;
+				users.push(user);
+			});
+			resolve(new ResponseModel(200, false, users));
+		});
+	});
+};
+
 module.exports = {
 	register: register,
 	authenticate: authenticate,
 	getByUUID: getByUUID,
+	getAll: getAll
 };

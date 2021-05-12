@@ -19,6 +19,7 @@
   "dependencies": {
     "@google-cloud/firestore": "^4.11.0",
     "cors": "^2.8.5",
+    "enum": "^3.0.4",
     "express": "^4.17.1",
     "firebase-admin": "^9.7.0",
     "uuidv4": "^6.2.8"
