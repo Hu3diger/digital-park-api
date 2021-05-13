@@ -1,13 +1,10 @@
-const admin = require("firebase-admin");
-const serviceAccount = require("../firebase.config.json");
 const ResponseModel = require("../Models/ResponseModel");
-const UserType = require("../Enums/UserType.enum")
+const UserType = require("../Enums/UserType.enum");
+const TokenService = require('./Token');
 const { uuid } = require("uuidv4");
+const dbContext = require('./DbContext');
 
-admin.initializeApp({
-	credential: admin.credential.cert(serviceAccount),
-});
-const db = admin.firestore();
+const db = dbContext.getInstance();
 const dbUsers = db.collection("users");
 
 var register = function (user) {
@@ -74,9 +71,11 @@ var authenticate = async function (user) {
 					}
 
 					delete data.password;
-					data.token = "DP_WASD_" + Date.now();
-					resolve(new ResponseModel(200, false, data));
-					return;
+					TokenService.generate(data.username).then((token) => {
+						data.token = token;
+						resolve(new ResponseModel(200, false, data));
+						return;
+					})
 				});
 		}
 	});

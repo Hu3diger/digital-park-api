@@ -1,5 +1,5 @@
 const express = require("express");
-var UserController = require('./Controllers/UsersController.js');
+const UserController = require('./Controllers/UsersController.js');
 
 const app = express();
 const port = 4000;
