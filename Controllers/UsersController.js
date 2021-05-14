@@ -45,4 +45,17 @@ router.get("/:uuid", async (req, res) => {
 	});
 });
 
+router.put("/:uuid", async (req, res) => {
+	TokenService.validateToken(req.headers.authorization).then((isValid) => {
+		if (!isValid){
+			res.status(401).send();
+		} else {
+			UserService.updateUser(req.body, req.params.uuid).then((response) => {
+				console.log(response);
+				res.status(response.status).send(response);
+			});
+		}
+	});
+});
+
 module.exports = router;
