@@ -1,8 +1,8 @@
 const ResponseModel = require("../Models/ResponseModel");
 const UserType = require("../Enums/UserType.enum");
-const TokenService = require("./Token");
+const TokenService = require("./Token.service");
 const { uuid } = require("uuidv4");
-const dbContext = require("./DbContext");
+const dbContext = require("./DbContext.service");
 
 const db = dbContext.getInstance();
 const dbUsers = db.collection("users");

@@ -1,4 +1,4 @@
-const dbContext = require("./DbContext");
+const dbContext = require("./DbContext.service");
 const crypto = require("crypto");
 
 const db = dbContext.getInstance();

@@ -1,5 +1,6 @@
 const express = require("express");
 const UserController = require('./Controllers/UsersController.js');
+const LocationController = require('./Controllers/LocationController');
 
 const app = express();
 const port = 4000;
@@ -16,6 +17,7 @@ app.use(function(req, res, next) {
 //CONTROLLERS
 //Users
 app.use(BASE_URL + '/users', UserController);
+app.use(BASE_URL + '/location', LocationController);
 
 //Maps is the next one
 
