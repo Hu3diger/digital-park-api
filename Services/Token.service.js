@@ -22,6 +22,10 @@ var generate = async function () {
 };
 
 var validateToken = async function (token) {
+	if (token == null || token == undefined) {
+		return false;
+	}
+
 	var tokenWithoutBearer = (token.toString()).substring(7, token.length);
 	return dbTokens
 		.doc(tokenWithoutBearer)

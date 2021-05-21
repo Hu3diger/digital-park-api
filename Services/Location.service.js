@@ -17,6 +17,29 @@ var getAll = async function () {
 	});
 };
 
+var getByUUID = async function (uuid) {
+	return new Promise((resolve) => {
+		var response = null;
+		if (uuid == null || uuid == undefined) {
+			response = new ResponseModel(400, true, "UUID property is required");
+		}
+
+		if (response != null) {
+			resolve(response);
+			return;
+		} else {
+			dbLocations.get(uuid).then((querySnapshot) => {
+				locations = [];
+				querySnapshot.forEach((doc) => {
+					locations.push(doc.data());
+				});
+
+				resolve(new ResponseModel(200, false, locations));
+			});
+		}
+	});
+};
+
 var save = async function (locations, uuid) {
 	return new Promise((resolve) => {
 		var locationsToSave = [];
@@ -61,4 +84,5 @@ var save = async function (locations, uuid) {
 module.exports = {
 	getAll: getAll,
 	save: save,
+	getByUUID: getByUUID
 };
